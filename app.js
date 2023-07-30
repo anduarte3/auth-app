@@ -7,6 +7,15 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+const mongoose = require("mongoose");
+mongoose.set("strictQuery", false);
+const mongoDB = "mongodb+srv://andre:fcporto1@cluster0.lz91hw2.mongodb.net/local_library?retryWrites=true&w=majority";
+
+main().catch((err) => console.log(err));
+async function main() {
+  await mongoose.connect(mongoDB);
+}
+
 var app = express();
 
 // view engine setup
@@ -39,9 +48,3 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-
-
-//sign up form:
-//name, password
-//login form:
-//name, password
