@@ -1,22 +1,22 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+
+const app = express();
 
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
-const mongoDB = "mongodb+srv://andre:fcporto1@cluster0.lz91hw2.mongodb.net/local_library?retryWrites=true&w=majority";
+const mongoDB = "mongodb+srv://andrte:BbK3sI7f806iuPyL@authdb.n6ufc6y.mongodb.net/?retryWrites=true&w=majority";
 
 main().catch((err) => console.log(err));
 async function main() {
   await mongoose.connect(mongoDB);
 }
-
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
