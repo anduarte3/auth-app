@@ -1,0 +1,17 @@
+<%- include('./layout.ejs') %>
+
+<div class="login-container">
+    <h3>Please provide your login details</h3>
+    <form action="/users/login" method="post">
+        <div class="login-fields">
+            <label for="name">Username</label>
+            <input type="text" name="username">
+        </div>
+        <div class="login-fields">
+            <label for="password">Password</label>
+            <input type="password" name="password">
+        </div>
+        <button type="submit" class="login-btn">Login</button>
+    </form>
+    <p>Don't have account? <a href="/users/register">Register</a></p>
+</div>
