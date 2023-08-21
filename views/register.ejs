@@ -2,24 +2,24 @@
 
 <div class="register-container">
     <h3>Please provide the required details</h3>
-    <form action="/users/register" method="post">
+    <form action="/register" method="post">
         <div class="register-fields">
             <label for="name">Username</label>
-            <input type="text" name="username">
+            <input type="text" required="true" maxlength="20" name="username">
         </div>
         <div class="register-fields">
             <label for="email">Email</label>
-            <input type="email" name="email">
+            <input type="email" required="true" maxlength="20" name="email">
         </div>
         <div class="register-fields">
             <label for="password">Password</label>
-            <input type="password" name="password">
+            <input type="password" required="true" minlength="6" name="password">
         </div>
         <div class="register-fields">
-            <label for="password2">Confirm Password</label>
-            <input type="password" name="password2">
+            <label for="passwordConfirm">Confirm Password</label>
+            <input type="password" required="true" minlength="6" name="passwordConfirm">
         </div>
         <button type="submit" class="register-btn">Create account</button>
     </form>
-    <p>Have an Account? <a href="/users/login">Login</a></p>
+    <p>Have an Account? <a href="/login">Login</a></p>
 </div>
