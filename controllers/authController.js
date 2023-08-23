@@ -46,22 +46,18 @@ exports.register_post = [
         } else {
             bcrypt.hash('req.body.password', 10, async (err, hashedPassword) => {
                 if (err) return next(err)
-                bcrypt.hash('req.body.passwordConfirm', 10, async (err, hashedPasswordConfirm) => {
-                    if (err) return next(err)
-                    else {
-                        // Create new user with escaped and trimmed data
-                        const addUser = new User({
-                            name: req.body.name,
-                            email: req.body.email,
-                            password: hashedPassword,
-                            passwordConfirm: hashedPasswordConfirm
-                        });
-                        // Save to database
-                        await addUser.save();
-                        // Redirect to login
-                        res.redirect('/login')
-                    }
-                });                
+                else {
+                    // Create new user with escaped and trimmed data
+                    const addUser = new User({
+                        name: req.body.name,
+                        email: req.body.email,
+                        password: hashedPassword,
+                    });
+                    // Save to database
+                    await addUser.save();
+                    // Redirect to login
+                    res.redirect('/login')
+                }                
             });
         }
     })
