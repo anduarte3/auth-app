@@ -16,11 +16,11 @@ body {
   border-radius: 10px;
   position: relative;
   top: 40px;
-  transform: translateY(0); /* Resetting transform */
+  transform: translateY(0); 
   transition: transform 0.3s ease; 
 }
 .container:hover {
-  transform: translateY(10px); /* Lower the div by 10px on hover */
+  transform: translateY(30px); 
 }
 .login-btn {
   display: flex;
@@ -113,7 +113,7 @@ img {
   text-decoration:none; 
   cursor:pointer;  
 }
-/* Register fields for users/register */
+/* Register fields for /register */
 .register-container {
   width: 400px;
   padding: 20px;
@@ -126,7 +126,7 @@ img {
   border-radius: 10px;
   position: relative;
   top: 40px;
-  transform: translateY(0); /* Resetting transform */
+  transform: translateY(0); 
   transition: transform 0.3s ease; 
 }
 .register-fields {
@@ -136,7 +136,12 @@ img {
   font-weight: 700;
   font-size: 13px;
 }
-/* Login fields for users/login */
+.error-msg {
+  text-align: left;
+  font-size: 15px;
+  padding: 2px;
+}
+/* Login fields for /login */
 .login-container {
   width: 400px;
   padding: 20px;
@@ -149,7 +154,7 @@ img {
   border-radius: 10px;
   position: relative;
   top: 40px;
-  transform: translateY(0); /* Resetting transform */
+  transform: translateY(0); 
   transition: transform 0.3s ease; 
 }
 .login-fields {
