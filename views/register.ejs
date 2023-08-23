@@ -5,21 +5,26 @@
     <form action="/register" method="post">
         <div class="register-fields">
             <label for="name">Username</label>
-            <input type="text" required="true" maxlength="20" name="username">
+            <input type="text" name="name">
         </div>
         <div class="register-fields">
             <label for="email">Email</label>
-            <input type="email" required="true" maxlength="20" name="email">
+            <input type="email" name="email">
         </div>
         <div class="register-fields">
             <label for="password">Password</label>
-            <input type="password" required="true" minlength="6" name="password">
+            <input type="password" name="password">
         </div>
         <div class="register-fields">
             <label for="passwordConfirm">Confirm Password</label>
-            <input type="password" required="true" minlength="6" name="passwordConfirm">
+            <input type="password" name="passwordConfirm">
         </div>
         <button type="submit" class="register-btn">Create account</button>
+        <% if (locals.errors) { %>
+            <% errors.forEach(function(error) { %>
+                <li class="error-msg"><%= error.msg %></li>
+            <% }) %>
+        <% } %>
     </form>
     <p>Have an Account? <a href="/login">Login</a></p>
 </div>
