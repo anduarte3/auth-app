@@ -5,6 +5,11 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const dotenv = require('dotenv').config({ path: 'config.env' });
 
+//authentication
+const session = require("express-session");
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+
 const indexRouter = require('./routes/routes');
 
 const app = express();
@@ -15,7 +20,6 @@ mongoose.set("strictQuery", false);
 main().catch((err) => console.log(err));
 async function main() {
   await mongoose.connect(process.env.MONGODB_URL);
-  console.log('Connected to MongoDB');
 }
 
 // view engine setup
@@ -27,6 +31,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// PassportJS
+const User = require('./models/user');
+// Trim Username for the login
+const bcrypt = require('bcryptjs');
+
 
 app.use('/', indexRouter);
 

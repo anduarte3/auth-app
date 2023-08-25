@@ -1,10 +1,4 @@
-# members-only
+# Node.js & Authentication App
 
-
-In this project I’ll be building an exclusive clubhouse where the members can write anonymous posts. Inside the clubhouse, members can see who the author of a post is, but outside they can only see the story and wonder who wrote it.
-
-
-<!-- sign up form:
-name, password
-login form:
-name, password -->
+In this project i'm building a authentication app where users can signup and login.
+I used bcrypt for hashing passwords and passportJS.

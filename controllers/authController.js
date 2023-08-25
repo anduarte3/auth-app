@@ -2,14 +2,12 @@ const User = require('../models/user')
 const { body, validationResult } = require('express-validator');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
-const passport = require("passport");
-
+const passport = require('passport');
 
 // ------------------------------ REGISTER ------------------------------ //
 exports.register_get = asyncHandler(async (req, res, next) => {
     res.render('register')
 });
-
 exports.register_post = [
     // Validate and sanitize fields
     body('name')
@@ -67,13 +65,12 @@ exports.register_post = [
 exports.login_get = asyncHandler(async (req, res, next) => {
     res.render('login')
 });
-
-exports.login_post = asyncHandler(async (req, res, next) => {
-    
+exports.login_post = passport.authenticate('local', {
+    sucessRedirect: "/dashboard",
+    failureRedirect: "/login"
 });
-
 exports.logout_get = asyncHandler(async (req, res, next) => {
-    //Logout
+    // Logout
     res.render('welcome')
 });
 
