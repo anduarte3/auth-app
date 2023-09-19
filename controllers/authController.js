@@ -66,13 +66,23 @@ exports.login_get = asyncHandler(async (req, res, next) => {
     res.render('login')
 });
 exports.login_post = passport.authenticate('local', {
-    sucessRedirect: "/dashboard",
+    successRedirect: "/dashboard",
     failureRedirect: "/login"
 });
 exports.logout_get = asyncHandler(async (req, res, next) => {
     // Logout
-    res.render('welcome')
+    req.logout((err) => {
+        if (err) {
+          return next(err);
+        }
+        res.redirect("/");
+    });
 });
+
+exports.dashboard_get = asyncHandler(async (req, res, next) => {
+    res.render('dashboard', { user: req.user });
+})
+
 
 // Ok things todo tomorrow and next days:
 // - compare on login post request if username and password match on database

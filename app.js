@@ -1,14 +1,49 @@
-const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const createError = require('http-errors');
 const dotenv = require('dotenv').config({ path: 'config.env' });
 
 //authentication
-const session = require("express-session");
+const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
+// PassportJS
+const User = require('./models/user');
+// Trim Username for the login
+const bcrypt = require('bcryptjs');
+
+passport.use(
+  new LocalStrategy(async (name, password, done) => {
+    try {
+      const user = await User.findOne({ name: name });
+      console.log(user);
+      if (!user) {
+        return done(null, false, { message: "Incorrect username" });
+      };
+      if (user.password !== password) {
+        return done(null, false, { message: "Incorrect password" });
+      };
+      return done(null, user);
+    } catch(err) {
+      return done(err);
+    };
+  })
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch(err) {
+    done(err);
+  };
+});
 
 const indexRouter = require('./routes/routes');
 
@@ -32,11 +67,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// PassportJS
-const User = require('./models/user');
-// Trim Username for the login
-const bcrypt = require('bcryptjs');
-
+app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', indexRouter);
 

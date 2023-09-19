@@ -15,8 +15,9 @@ router.post('/register', authController.register_post)
 // ------------------------------ LOGIN/LOGOUT ------------------------------ //
 router.get('/login', authController.login_get);
 router.post('/login', authController.login_post);
-router.get ('/logout', authController.logout_get);
+router.get('/logout', authController.logout_get);
 
 // ------------------------------ CREATE MESSAGE ------------------------------ //
+router.get('/dashboard', authController.dashboard_get);
 
 module.exports = router;
