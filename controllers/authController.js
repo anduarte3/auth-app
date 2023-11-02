@@ -24,7 +24,7 @@ exports.register_post = [
     
     body('password').isLength({ min: 6 }),
     body('passwordConfirm').custom((value, { req }) => {
-        return value === req.body.password;
+        return value === req.body.password
     }).withMessage('Passwords do not match.'),
 
     // Process request after validation and sanitization
@@ -42,7 +42,7 @@ exports.register_post = [
         } else if (takenUsername.length > 0 || takenEmail.length > 0) {
             res.render('register', {errors: [{ msg: 'Username or Email already taken.'}]});
         } else {
-            bcrypt.hash('req.body.password', 10, async (err, hashedPassword) => {
+            bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
                 if (err) return next(err)
                 else {
                     // Create new user with escaped and trimmed data
@@ -65,10 +65,12 @@ exports.register_post = [
 exports.login_get = asyncHandler(async (req, res, next) => {
     res.render('login')
 });
+
 exports.login_post = passport.authenticate('local', {
     successRedirect: "/dashboard",
     failureRedirect: "/login"
 });
+
 exports.logout_get = asyncHandler(async (req, res, next) => {
     // Logout
     req.logout((err) => {
@@ -80,11 +82,5 @@ exports.logout_get = asyncHandler(async (req, res, next) => {
 });
 
 exports.dashboard_get = asyncHandler(async (req, res, next) => {
-    res.render('dashboard', { user: req.user });
+    res.render('dashboard', { user: res.locals.currentUser });
 })
-
-
-// Ok things todo tomorrow and next days:
-// - compare on login post request if username and password match on database
-// - if login is failed just re render login.ejs again (could also make generic error)
-// - remember to check passportjs docs to learn how to use it

@@ -9,44 +9,8 @@ const dotenv = require('dotenv').config({ path: 'config.env' });
 const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
-// PassportJS
-const User = require('./models/user');
-// Trim Username for the login
-const bcrypt = require('bcryptjs');
-
-passport.use(
-  new LocalStrategy(async (name, password, done) => {
-    try {
-      const user = await User.findOne({ name: name });
-      console.log(user);
-      if (!user) {
-        return done(null, false, { message: "Incorrect username" });
-      };
-      if (user.password !== password) {
-        return done(null, false, { message: "Incorrect password" });
-      };
-      return done(null, user);
-    } catch(err) {
-      return done(err);
-    };
-  })
-);
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await User.findById(id);
-    done(null, user);
-  } catch(err) {
-    done(err);
-  };
-});
 
 const indexRouter = require('./routes/routes');
-
 const app = express();
 
 const mongoose = require("mongoose");
@@ -67,9 +31,63 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Passport middleware
 app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+// init passport on every route call.
 app.use(passport.initialize());
+// allow passport to use "express-session".
 app.use(passport.session());
+app.use(express.urlencoded({ extended: false }));
+
+// PassportJS
+const User = require('./models/user');
+const bcrypt = require('bcryptjs');
+
+passport.use(
+  new LocalStrategy(async (username, password, done) => {
+    console.log(username);
+    console.log(password);
+    try {
+      const user = await User.findOne({ name: username });
+      if (!user) {
+        return done(null, false, { message: "Incorrect name" });
+      }
+      console.log('so far so good');
+      console.log(user.password);
+      bcrypt.compare(password, user.password, (err, res) => {
+        if (res) {
+          // passwords match! log user in
+          console.log('password match!');
+          return done(null, user)
+        } else {
+          // passwords do not match!
+          console.log('password do not match!');
+          return done(null, false, { message: "Incorrect password" })
+        }
+      }) 
+    } catch(err) {
+      return done(err);
+    };
+  })
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch(err) {
+    done(err);
+  };
+});
+
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+});
 
 app.use('/', indexRouter);
 

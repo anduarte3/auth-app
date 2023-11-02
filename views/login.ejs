@@ -2,10 +2,10 @@
 
 <div class="login-container">
     <h3>Please provide your login details</h3>
-    <form action="/login" method="post">
+    <form action="/login" method="POST">
         <div class="login-fields">
-            <label for="name">Username</label>
-            <input type="text" name="name">
+            <label for="username">Username</label>
+            <input type="text" name="username">
         </div>
         <div class="login-fields">
             <label for="password">Password</label>
@@ -13,9 +13,5 @@
         </div>
         <button type="submit" class="login-btn">Login</button>
     </form>
-    
-    <% if(locals.error) {  %>
-        <div class="error">Username or password are incorrect</div>
-    <% } %>
     <p>Don't have account? <a href="/register">Register</a></p>
 </div>
